@@ -5,7 +5,7 @@
 */
 const mainCard = document.querySelector(".cards");
 
-axios.get("https://github.com/Strimnal32246/axios");
+axios.get("https://github.com/Strimnal32246/axios.git");
 then(res => {
   mainCard.appendChild(cardCreator(res.data));
   console.log(res.data);
