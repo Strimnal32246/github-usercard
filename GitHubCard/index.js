@@ -1,8 +1,15 @@
 /* Step 1: using axios, send a GET request to the following URL
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
+
 */
+const mainCard = document.querySelector(".cards");
+
 axios.get("https://github.com/Strimnal32246/axios");
+then(res => {
+  mainCard.appendChild(cardCreator(res.data));
+  console.log(res.data);
+});
 /* Step 2: Inspect and study the data coming back, this is YOUR
    github info! You will need to understand the structure of this
    data in order to use it to build your component function
@@ -13,33 +20,6 @@ axios.get("https://github.com/Strimnal32246/axios");
 /* Step 4: Pass the data received from Github into your function,
            create a new component and add it to the DOM as a child of .cards
 */
-function createCard(title) {
-  //define new elements
-  const card = document.createElement("div");
-  const image = document.createElement("img");
-  const cardinfo = document.createElement("div");
-  const name = document.createElement("h3");
-  const username = document.createElement("p");
-  const location = document.createElement("p");
-  const profile = document.createElement("p");
-  const anchor = document.createElement("a");
-  const followers = document.createElement("p");
-  const following = document.createElement("p");
-  const bio = document.createElement("p");
-
-  // Setup structure of elements
-
-  card.appendChild(image);
-  card.appendChild(cardinfo);
-  card.appendChild(name);
-  card.appendChild(username);
-  card.appendChild(location);
-  card.appendChild(profile);
-  profile.appendChild(anchor);
-  card.appendChild(followers);
-  card.appendChild(following);
-  card.appendChild(bio);
-}
 /* Step 5: Now that you have your own card getting added to the DOM, either
           follow this link in your browser https://api.github.com/users/<Your github name>/followers
           , manually find some other users' github handles, or use the list found
@@ -79,3 +59,52 @@ const followersArray = [];
   luishrd
   bigknell
 */
+window.addEventListener("load", cardCreator);
+
+function cardCreator(obj) {
+  const cardDiv = document.createElement("div");
+  cardDiv.classList.add("card");
+
+  const newImg = document.createElement("img");
+  newImg.src = obj.avatar_url;
+
+  const cardInfoDiv = document.createElement("div");
+  cardInfoDiv.classList.add("card-info");
+
+  const nameTitle = document.createElement("h3");
+  nameTitle.classList.add("name");
+
+  const usernameP = document.createElement("p");
+  usernameP.classList.add("username");
+  usernameP.textContent = obj.login;
+
+  const locationP = document.createElement("p");
+
+  const profileP = document.createElement("p");
+  profileP.textContent = "Profile: ";
+
+  const profileLink = document.createElement("a");
+  profileLink.textContent = obj.html_url;
+
+  const followersP = document.createElement("p");
+  followersP.textContent = "Followers: " + obj.followers;
+
+  const followingP = document.createElement("p");
+  followingP.textContent = "Following: " + obj.following;
+
+  const bioP = document.createElement("p");
+  bioP.textContent = "Bio: " + obj.bio;
+
+  cardDiv.appendChild(newImg);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(nameTitle);
+  cardInfoDiv.appendChild(usernameP);
+  cardInfoDiv.appendChild(locationP);
+  cardInfoDiv.appendChild(profileP);
+  profileP.appendChild(profileLink);
+  cardInfoDiv.appendChild(followersP);
+  cardInfoDiv.appendChild(followingP);
+  cardInfoDiv.appendChild(bioP);
+
+  return cardDiv;
+}
