@@ -3,13 +3,15 @@
            https://api.github.com/users/<your name>
 
 */
-const mainCard = document.querySelector(".cards");
+const mainCard = document.querySelector("cards");
 
-axios.get("https://github.com/Strimnal32246/axios.git");
-then(res => {
-  mainCard.appendChild(cardCreator(res.data));
-  console.log(res.data);
-});
+axios
+  .get("https://api.github.com/users/strimnal32246")
+  .then(response => cardCreator(response.data))
+  .catch(err => {
+    console.log(err);
+  });
+
 /* Step 2: Inspect and study the data coming back, this is YOUR
    github info! You will need to understand the structure of this
    data in order to use it to build your component function
@@ -59,52 +61,52 @@ const followersArray = [];
   luishrd
   bigknell
 */
-window.addEventListener("load", cardCreator);
 
-function cardCreator(obj) {
-  const cardDiv = document.createElement("div");
-  cardDiv.classList.add("card");
+const cardList = document.querySelector(".cards");
+console.log(cardList);
 
-  const newImg = document.createElement("img");
-  newImg.src = obj.avatar_url;
+function cardCreator(element) {
+  //create elements////
+  const card1 = document.createElement("div");
+  const img1 = document.createElement("img");
+  const info1 = document.createElement("div");
+  const name1 = document.createElement("h3");
+  const user1 = document.createElement("p");
+  const location1 = document.createElement("p");
+  const profile1 = document.createElement("p");
+  const profAdd = document.createElement("a");
+  const followers1 = document.createElement("p");
+  const following1 = document.createElement("p");
+  const bio1 = document.createElement("p");
 
-  const cardInfoDiv = document.createElement("div");
-  cardInfoDiv.classList.add("card-info");
+  //append elements
+  card1.appendChild(img1);
+  card1.appendChild(info1);
+  info1.appendChild(name1);
+  info1.appendChild(user1);
+  info1.appendChild(location1);
+  info1.appendChild(profile1);
+  profile1.appendChild(profAdd);
+  info1.appendChild(followers1);
+  info1.appendChild(following1);
+  info1.appendChild(bio1);
 
-  const nameTitle = document.createElement("h3");
-  nameTitle.classList.add("name");
+  //add classes
+  card1.classList.add("card");
+  info1.classList.add("card-info");
+  name1.classList.add("name");
+  user1.classList.add("username");
 
-  const usernameP = document.createElement("p");
-  usernameP.classList.add("username");
-  usernameP.textContent = obj.login;
+  //add content
+  img1.src = element.avatar_url;
+  name1.textContent = element.name;
+  user1.textContent = element.login;
+  location1.textContent = element.location;
+  const theProfAdd = element.url;
+  profAdd.innerHTML = theProfAdd.link(element.url);
+  followers1.textContent = `Followers: ${element.followers}`;
+  following1.textContent = `Following: ${element.following}`;
+  bio1.textContent = element.bio;
 
-  const locationP = document.createElement("p");
-
-  const profileP = document.createElement("p");
-  profileP.textContent = "Profile: ";
-
-  const profileLink = document.createElement("a");
-  profileLink.textContent = obj.html_url;
-
-  const followersP = document.createElement("p");
-  followersP.textContent = "Followers: " + obj.followers;
-
-  const followingP = document.createElement("p");
-  followingP.textContent = "Following: " + obj.following;
-
-  const bioP = document.createElement("p");
-  bioP.textContent = "Bio: " + obj.bio;
-
-  cardDiv.appendChild(newImg);
-  cardDiv.appendChild(cardInfoDiv);
-  cardInfoDiv.appendChild(nameTitle);
-  cardInfoDiv.appendChild(usernameP);
-  cardInfoDiv.appendChild(locationP);
-  cardInfoDiv.appendChild(profileP);
-  profileP.appendChild(profileLink);
-  cardInfoDiv.appendChild(followersP);
-  cardInfoDiv.appendChild(followingP);
-  cardInfoDiv.appendChild(bioP);
-
-  return cardDiv;
+  return card1;
 }
